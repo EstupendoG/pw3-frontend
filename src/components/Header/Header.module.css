@@ -1,0 +1,21 @@
+header.header{
+
+}
+
+    .headerImg{
+        width: 100%;
+        height: 200px;
+
+        position: relative;
+
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+        .headerImg .pageIcon{
+            position: absolute;   
+            bottom: -2rem;
+            left: 4rem;
+
+            font-size: 4rem;
+        }
