@@ -1,5 +1,6 @@
 import styles from './Header.module.css' 
 import { useColorContext } from '../../contexts/colorContext.js'
+import { useEffect } from 'react'
 
 interface HeaderProps{
     // coverUrl: string,
@@ -32,6 +33,10 @@ function Header({
         'red'
     ]
 
+    useEffect(() => {
+        console.log(color)
+    }, [color])
+
     return(
         <header className={`${styles.header}`}>
             {/* <div className={styles.headerImg} style={ coverStyles }>
@@ -53,14 +58,19 @@ function Header({
                 </div>
 
                 <section className={`d-flex align-items-center`}>
-                    <div className={styles.colorContainer}>
+                    <div className={`d-flex ${styles.colorContainer}`}>
 
-                        {colorOptions.map(c => (
-                            <>
-                                <input className={styles.colorOption} type="radio" name="changeColor" value={c} id={c} key={c} onChange={() => setColor(c)} />
-                                <label htmlFor={c} style={{color: `--${c}-bg`}}>{c}</label>
-                            </>
-                        ))}
+                        <span className={styles.currentColor} style={{color: `--${color}-text`}}> </span>
+                        
+                        <div className={`d-flex gap-1 align-items-center ${styles.colorOptions}`}>
+                            {colorOptions.map(c => (
+                                <>
+                                    <input className={styles.colorOption} type="radio" name="changeColor" value={c} id={c} key={c} onChange={() => setColor(c)}
+                                    />
+                                    <label htmlFor={c} style={{color: `--${c}-text`}}></label>
+                                </>
+                            ))}
+                        </div>
 
                     </div>
                 </section>

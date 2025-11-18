@@ -19,3 +19,54 @@ header.header{
 
             font-size: 4rem;
         }
+
+    div.colorContainer{
+        background-color: var(--color-bg-secondary);
+        padding: 15px;
+        border-radius: 50px;
+
+        &:hover{
+            gap: 1rem;
+        }
+
+        &:hover div.colorOptions{
+            width: 200px;
+            min-width: fit-content;
+            display: flex;
+        }
+    }
+
+        span.currentColor{
+            display: block;
+            cursor: default !important;
+        }
+
+        div.colorOptions{
+            width: 0;
+            overflow-x: hidden;
+            display: none;
+
+            transition: all 200ms;
+        }
+            input[type="radio"].colorOption{
+                visibility: hidden;
+                display: none;
+            }
+                input[type="radio"].colorOption + label,
+                span.currentColor{
+                    background-color: currentColor;
+                    height: 1.5rem;
+                    aspect-ratio: 1/1;
+
+                    border-radius: 50px;
+
+                    cursor: pointer;
+                    user-select: none;
+                }
+                input[type="radio"].colorOption:checked + label,
+                span.currentColor{
+                    scale: .9;
+                    border: 2px solid var(--color-bg-secondary);
+                    outline: 3px solid currentColor;
+                }
+
