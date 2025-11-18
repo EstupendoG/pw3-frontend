@@ -6,11 +6,10 @@ import homepageCover from '../assets/covers/homepage-cover.png'
 function DefaultLayout(){
     return(
         <>
-            <Header coverPosition="0 80%" coverUrl={homepageCover} pageBiIcon="postage-fill"/>
+            <Header pageTitle={undefined} pageSubtitle={undefined}/>
 
             <div className="container-md">
                 <Outlet />
-
             </div>
         </>
     )
