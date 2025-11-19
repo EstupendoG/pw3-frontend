@@ -19,10 +19,12 @@ const Sidebar = () => {
                             Continente
                         </li>
                     </Link>
-                    <li>
-                        <i className="bi bi-compass-fill"></i>
-                        País
-                    </li>
+                    <Link to='/views/countries'>
+                        <li>
+                            <i className="bi bi-flag-fill"></i>
+                            País
+                        </li>
+                    </Link>
                     <li>
                         <i className="bi bi-buildings-fill"></i>
                         Cidade

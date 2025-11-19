@@ -5,22 +5,26 @@ import api from '../../service/axios.js';
 import Input from '../../components/Input/Input.js';
 import { useEffect, useState, useRef } from 'react';
 
-function ContinentView () {
+interface DatabaseViewProps {
+    dataFormat: Record<string, any>;
+    entity: string;
+    iconClass: string;
+    route: string;
+}
+
+function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps) {
+    const dataKeys = Object.keys(dataFormat);
     const [data, setData] = useState([])
-    const [formData, setFormData] = useState({
-        id: '',
-        nome: '',
-        descricao: '',
-    });
-    const closeModalRef = useRef<HTMLButtonElement>(null);
+    const [formData, setFormData] = useState<Record<string, any>>({});
     const [isUpdating, setIsUpdating] = useState(false);
+    const closeModalRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
         fetchData();
     }, []);
 
     function fetchData() {
-        api.get('/continents')
+        api.get(route)
         .then((response) => {
             setData(response.data);
         })
@@ -30,42 +34,47 @@ function ContinentView () {
     }
 
     function handleCreate (){
-        api.post('/continents', {
-            nome: formData.nome,
-            descricao: formData.descricao,
-        })
+        console.log( Object.fromEntries(dataKeys
+                .filter(key => key !== 'id')
+                .map((key) => [key, formData[key]]
+        )))
+        api.post(route, 
+            Object.fromEntries(dataKeys
+                .filter(key => key !== 'id')
+                .map((key) => [key, formData[key]]
+        )))
             .then((response) => {
-                console.log('Continente criado com sucesso:', response.data);
+                console.log(`${entity} criado com sucesso: ` , response.data);
                 setIsUpdating(false);
                 closeModalRef.current?.click();
                 fetchData();
             })
             .catch((error) => {
-                console.error('Erro ao criar continente:', error);
+                console.error(`Erro ao criar ${entity}: `, error);
             });
     }
 
     function handleUpdate (){
-        api.put(`/continents/${formData.id}`, formData)
+        api.put(`${route}/${formData.id}`, formData)
             .then((response) => {
-                console.log('Continente atualizado com sucesso:', response.data);
+                console.log(`${entity} atualizado com sucesso: `, response.data);
                 setIsUpdating(false);
                 closeModalRef.current?.click();
                 fetchData();
             })
             .catch((error) => {
-                console.error('Erro ao atualizar continente:', error);
+                console.error(`Erro ao atualizar ${entity}: `, error);
             });
     }
 
     function handleDelete (id: number){
-        api.delete(`/continents/${id}`)
+        api.delete(`${route}/${id}`)
             .then((response) => {
-                console.log('Continente deletado com sucesso:', response.data);
+                console.log(`${entity} deletado com sucesso: `, response.data);
                 fetchData();
             })
             .catch((error) => {
-                console.error('Erro ao deletar continente:', error);
+                console.error(`Erro ao deletar ${entity}: `, error);
             });
     }
 
@@ -75,19 +84,24 @@ function ContinentView () {
             {/* CABEÇALHO */}
             <header className={`d-flex justify-content-between mb-3 ${styles.pageHeader}`}>
                 <section className={`d-flex align-items-center gap-1 ${styles.titleContainer}`}>
-                    <i className="bi bi-globe-americas-fill"></i>
-                    <h1 className={styles.title}>Continentes</h1>
+                    <i className={`bi bi-${iconClass}`}></i>
+                    <h1 className={styles.title}>
+                        {entity}
+                    </h1>
                 </section>
 
                 <section className={` ${styles.controllerContainer}`}>
-                    <button className={`${styles.addBtn}`} data-bs-toggle="modal" data-bs-target="#formModal" onClick={() => {
-                        setIsUpdating(false)
-                        setFormData({
-                            id: '',
-                            nome: '',
-                            descricao: '',
-                        });
-                    }}>
+                    <button className={`${styles.addBtn}`} data-bs-toggle="modal" data-bs-target="#formModal" 
+                        onClick={() => {
+                            setIsUpdating(false)
+
+                            const initial: any = {};
+                            dataKeys.forEach(key => {
+                                initial[key] = '';
+                            })
+                            setFormData(initial);
+                        }
+                    }>
                         <i className="bi bi-plus" />
                     </button>
                 </section>
@@ -100,34 +114,37 @@ function ContinentView () {
                     <table className={`table table-sm ${styles.dataTable}`}>
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Código</th>
+                                {dataKeys.map(key => (
+                                    <th scope="col" key={key}>{key}</th>
+                                ) )}
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             {data.map((data: any) => (
-                                <tr>
-                                    <th scope="row">{data.id}</th>
-                                    <td>{data.nome}</td>
-                                    <td>{data.descricao}</td>
+                                <tr key={data.id}>
+                                    
+                                    {dataKeys.map(key => (
+                                        <td key={key}>{data[key]}</td>
+                                    ))}
+                                    
                                     <th className={styles.actionCol}>
-                                        <button className={`btn btn-sm btn-primary me-1`}data-bs-toggle="modal" data-bs-target="#formModal"
+                                        <button className={`btn btn-sm me-1`} data-bs-toggle="modal" data-bs-target="#formModal"
                                             onClick={() => {
                                                 setIsUpdating(true);
-                                                setFormData({
-                                                    id: data.id,
-                                                    nome: data.nome,
-                                                    descricao: data.descricao,
-                                                });
+
+                                                const initial: any = {};
+                                                dataKeys.forEach(key => {
+                                                    initial[key] = data[key];
+                                                })
+                                                setFormData(initial);
                                             }}
                                         >
                                             <i className="bi bi-pencil-fill"></i>
                                         </button>
 
-                                        <button className={`btn btn-sm btn-danger`}
+                                        <button className={`btn btn-sm`}
                                             onClick={() => handleDelete(data.id)}
                                         > 
                                             <i className="bi bi-trash-fill"></i>
@@ -146,27 +163,31 @@ function ContinentView () {
             <div className="modal fade" id="formModal" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div className={`modal-content ${styles.modalConentent}`}>
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="formModal">
+
+                        <div className={`modal-header justify-content-between ${styles.modalHeader}`}>
+                            <h1 className={`modal-title fs-5 ${styles.title}`} id="formModal">
+                                <i className="bi bi-pencil-square me-2"></i>
                                 {isUpdating ? 'Edite o' : 'Adicione um'} Continente
                             </h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ref={closeModalRef}></button>
+
+                            <button type="button" data-bs-dismiss="modal" aria-label="Close" ref={closeModalRef}>
+                                <i className="bi bi-x"></i>
+                            </button>
                         </div>
                         <div className="modal-body">
-                            <form>
-                                <Input id='nome' label='Nome do Continente' 
-                                value={formData.nome} 
-                                onChange={(e) => setFormData(prev => ({
-                                    ...prev,
-                                    nome: e.target.value
-                                }))}/>
-
-                                <Input id='desc' label='Descrição do Continente' 
-                                value={formData.descricao} 
-                                onChange={(e) => setFormData(prev => ({
-                                    ...prev,
-                                    descricao: e.target.value
-                                }))}/>
+                            <form className='d-flex flex-column gap-2'>
+                                {dataKeys
+                                    .filter(key => key !== 'id')
+                                    .map((key) => (
+                                        <Input id={key} label={`${key} do ${entity}`} key={key}
+                                            value={formData[key]}
+                                            onChange={(e) => setFormData(prev => ({
+                                                ...prev,
+                                                [key]: e.target.value
+                                            }))}
+                                        />
+                                    )
+                                )}
                             </form>
                         </div>
                         <div className="modal-footer">
@@ -190,4 +211,4 @@ function ContinentView () {
     )
 }
 
-export default ContinentView;
+export default DatabaseView;

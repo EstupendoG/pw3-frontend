@@ -12,6 +12,7 @@ header.pageHeader{
         & .title{
             font-size: 1.5rem;
             margin-bottom: 0;
+            text-transform: capitalize;
         }
     }
 
@@ -77,13 +78,22 @@ main.tableContainer{
             color: var(--color-text-primary);
         }
 
+        & thead th{
+            text-transform: capitalize;
+        }
+
         & th.actionCol {
             width: 1%;
             white-space: nowrap;
         }
-
             & th.actionCol button {
+                background-color: var(--color-bg-primary);
                 font-size: .75rem;
+
+                &:hover{
+                    background-color: var(--color-accent-text);
+                    color: var(--color-accent-bg);
+                }
             }
     }
 
@@ -94,19 +104,47 @@ main.tableContainer{
         background-color: var(--color-bg-primary);
         color: var(--color-text-primary);
 
+        border-color: var(--color-accent-text);
+        box-shadow: 0 0 3px var(--color-accent-text);
+
         & > div{
             border-bottom: 0;
+            border-top: 0;
         }
     }
+
+        div.modalHeader{
+            padding-bottom: 0;
+        }
+            div.modalHeader .title{
+                color: var(--color-text-primary);
+
+                & i{
+                    color: var(--color-accent-text);
+                }
+            }
+            div.modalHeader button{
+                color: var(--color-accent-text);
+                font-size: 2rem;
+
+                transition: all 150ms ease-out;
+
+                &:hover{
+                    scale: 1.1;
+
+                }
+            }
 
     section.modalBtn{
         display: flex;
         justify-content: flex-end;
+        gap: .3rem;
     }
 
         section.modalBtn
         button {
             &:hover{
+                background-color: var(--color-accent-bg);
                 color: var(--color-accent-text);
             }
 

@@ -1,10 +1,15 @@
-body{
-    min-height: 100vh;
-    background-color: var(--color-bg-primary);
-}
-
 *{
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    margin: 0;
+    margin-bottom: 0;
     box-sizing: border-box;
 
     transition: color .2s ease-out, background-color .2s ease-out;
+}
+
+body{
+    min-height: 100vh;
+    background-color: var(--color-bg-primary);
 }
