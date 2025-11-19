@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom"
 import Header from "../components/Header/Header.js"
+import Sidebar from "../components/Sidebar/Sidebar.js"
 
 import homepageCover from '../assets/covers/homepage-cover.png' 
 
@@ -8,9 +9,15 @@ function DefaultLayout(){
         <>
             <Header pageTitle={undefined} pageSubtitle={undefined}/>
 
-            <div className="container-md">
-                <Outlet />
-            </div>
+            <section className="row container-md mx-auto mt-3">
+                <div className="col-3">
+                    <Sidebar/>
+                </div>
+                <div className="col">
+                    <Outlet />
+                </div>
+            </section>
+
         </>
     )
 }

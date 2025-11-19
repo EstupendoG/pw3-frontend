@@ -2,3 +2,9 @@ body{
     min-height: 100vh;
     background-color: var(--color-bg-primary);
 }
+
+*{
+    box-sizing: border-box;
+
+    transition: color .2s ease-out, background-color .2s ease-out;
+}

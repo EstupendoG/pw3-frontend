@@ -1,0 +1,36 @@
+div.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.label{
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+}
+
+.input{
+    background-color: var(--color-bg-secondary);
+    padding: .4rem .7rem;
+
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    text-align: start;
+
+    border: 1px solid var(--color-bg-secondary);
+    border-radius: 5px;
+    outline: none;
+
+    transition: scale 150ms ease-out;
+}
+textarea.input{
+    min-height: 100px;
+    max-height: 300px;
+    font-size: 1rem;
+}
+    .input:focus{
+        color: var(--color-text-primary);
+        outline: 1px solid var(--color-accent-pill);
+
+        scale: 1.005;
+    }

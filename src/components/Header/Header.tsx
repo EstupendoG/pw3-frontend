@@ -23,14 +23,14 @@ function Header({
 
     const {color, setColor} = useColorContext()
     const colorOptions = [
-        'brown',
+        // 'brown',
+        'red',
         'orange',
         'yellow',
         'green',
         'blue',
         'purple',
         'pink',
-        'red'
     ]
 
     useEffect(() => {
@@ -60,14 +60,13 @@ function Header({
                 <section className={`d-flex align-items-center`}>
                     <div className={`d-flex ${styles.colorContainer}`}>
 
-                        <span className={styles.currentColor} style={{color: `--${color}-text`}}> </span>
-                        
-                        <div className={`d-flex gap-1 align-items-center ${styles.colorOptions}`}>
+                        <span className={styles.currentColor} style={{color: `var(--${color}-text)`}}> </span>
+                        <div className={`d-flex align-items-center ${styles.colorOptions}`}>
                             {colorOptions.map(c => (
                                 <>
-                                    <input className={styles.colorOption} type="radio" name="changeColor" value={c} id={c} key={c} onChange={() => setColor(c)}
+                                    <input className={styles.colorOption} type="radio" name="changeColor" value={c} id={c} key={`${c}-input`} onChange={() => setColor(c)}
                                     />
-                                    <label htmlFor={c} style={{color: `--${c}-text`}}></label>
+                                    <label htmlFor={c} style={{color: `var(--${c}-text)`}} key={`${c}-label`}></label>
                                 </>
                             ))}
                         </div>
