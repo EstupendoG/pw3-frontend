@@ -55,7 +55,10 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
     }
 
     function handleUpdate (){
-        api.put(`${route}/${formData.id}`, formData)
+        api.put(`${route}/${formData.id}`, Object.fromEntries(dataKeys
+                .filter(key => key !== 'id')
+                .map((key) => [key, formData[key]]
+        )))
             .then((response) => {
                 console.log(`${entity} atualizado com sucesso: `, response.data);
                 setIsUpdating(false);
@@ -68,6 +71,7 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
     }
 
     function handleDelete (id: number){
+        console.log(id)
         api.delete(`${route}/${id}`)
             .then((response) => {
                 console.log(`${entity} deletado com sucesso: `, response.data);
@@ -145,7 +149,9 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
                                         </button>
 
                                         <button className={`btn btn-sm`}
-                                            onClick={() => handleDelete(data.id)}
+                                            onClick={() => {
+                                                handleDelete(data.id)}
+                                            }
                                         > 
                                             <i className="bi bi-trash-fill"></i>
                                         </button>

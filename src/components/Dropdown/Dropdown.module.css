@@ -1,0 +1,23 @@
+div.dropdown {
+}
+
+    button.dropdownButton {
+        width: 100%;
+        cursor: pointer;
+    }
+
+    ul.dropdownMenu {
+        width: 100%;
+        padding: 0;
+        background-color: var(--color-bg-primary);
+
+        & li{
+            color: var(--color-text-secondary);
+            cursor: pointer;   
+        }
+        & li:hover {
+            background-color: var(--color-accent-bg);
+            color: var(--color-accent-text);
+
+        }
+    }

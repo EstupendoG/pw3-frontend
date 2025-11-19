@@ -25,10 +25,12 @@ const Sidebar = () => {
                             País
                         </li>
                     </Link>
-                    <li>
-                        <i className="bi bi-buildings-fill"></i>
-                        Cidade
-                    </li>
+                    <Link to='/views/cities'>
+                        <li>
+                            <i className="bi bi-buildings-fill"></i>
+                            Cidade
+                        </li>
+                    </Link>
                 </ul>
             </section>
 

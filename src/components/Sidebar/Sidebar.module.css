@@ -26,12 +26,13 @@ nav.sidebar{
     }
 
     section.links{
-
+        text-decoration: none;
     }
 
         ul.linksContainer{
             padding-left: 0;
             list-style: none;
+            text-decoration: none;
 
             display: flex;
             flex-direction: column;
@@ -40,7 +41,9 @@ nav.sidebar{
             ul.linksContainer li{
                 padding: .1rem .5rem;
 
+                color: var(--color-text-secondary);
                 font-size: .9rem;
+                text-decoration: none;
                 
                 display: flex;
                 align-items: center;
