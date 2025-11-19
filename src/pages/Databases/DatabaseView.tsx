@@ -3,7 +3,9 @@ import styles from './DatabaseViews.module.css'
 import api from '../../service/axios.js';
 
 import Input from '../../components/Input/Input.js';
+import Dropdown from '../../components/Dropdown/Dropdown.js';
 import { useEffect, useState, useRef } from 'react';
+import { getForeignKeys, getForeignKeyConfig } from '../../config/relationshipConfig.js';
 
 interface DatabaseViewProps {
     dataFormat: Record<string, any>;
@@ -19,9 +21,25 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
     const [isUpdating, setIsUpdating] = useState(false);
     const closeModalRef = useRef<HTMLButtonElement>(null);
 
+    // Estado para armazenar dados das entidades relacionadas
+    // Ex: { id_pais: [...countries], id_continente: [...continents] }
+    const [relatedData, setRelatedData] = useState<Record<string, any>>({});
+    
+    // Pega as Foreign Keys desta entidade
+    const foreignKeys = getForeignKeys(entity);
+
+    // Efeito 1: Carrega dados principais e dados relacionados
     useEffect(() => {
         fetchData();
-    }, []);
+        
+        // Calcula Foreign Keys neste momento (dentro do useEffect)
+        const fks = getForeignKeys(entity);
+        
+        // Carrega dados das entidades relacionadas
+        if (fks.length > 0) {
+            loadRelatedData(fks);
+        }
+    }, [entity]);
 
     function fetchData() {
         api.get(route)
@@ -29,56 +47,94 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
             setData(response.data);
         })
         .catch((error) => {
-            console.error('Error pegando continentes:', error);
+            console.error(`Erro ao buscar ${entity}:`, error);
+        });
+    }
+
+    /**
+     * Carrega dados das entidades relacionadas (Foreign Keys)
+     * Cada FK resulta em uma chamada à API para buscar os dados
+     */
+    function loadRelatedData(fks: string[]) {
+        const relatedDataTemp: Record<string, any> = {};
+        let completedRequests = 0;
+
+        fks.forEach((foreignKeyField) => {
+            const config = getForeignKeyConfig(entity, foreignKeyField);
+            if (!config) {
+                return;
+            }
+            
+            api.get(config.route)
+                .then((response) => {
+                    // Transforma os dados em formato esperado pelo Dropdown
+                    // Ex: { id: 1, nome: 'Brasil' } -> { id: 1, label: 'Brasil' }
+                    const formattedData = response.data.map((item: any) => ({
+                        ...item,
+                        label: item[config.label] || item.nome || item.id,
+                    }));
+
+                    relatedDataTemp[foreignKeyField] = formattedData;
+                    completedRequests++;
+
+                    // Atualiza estado apenas quando todas as requisições terminarem
+                    if (completedRequests === fks.length) {
+                        setRelatedData(relatedDataTemp);
+                    }
+                })
+                .catch((error) => {
+                    console.error(`Erro ao carregar ${foreignKeyField}:`, error);
+                    completedRequests++;
+                    
+                    if (completedRequests === fks.length) {
+                        setRelatedData(relatedDataTemp);
+                    }
+                });
         });
     }
 
     function handleCreate (){
-        console.log( Object.fromEntries(dataKeys
+        // Cria objeto sem o ID (ele é gerado pelo servidor)
+        const payload = Object.fromEntries(dataKeys
                 .filter(key => key !== 'id')
-                .map((key) => [key, formData[key]]
-        )))
-        api.post(route, 
-            Object.fromEntries(dataKeys
-                .filter(key => key !== 'id')
-                .map((key) => [key, formData[key]]
-        )))
+                .map((key) => [key, formData[key]])
+        );
+        
+        api.post(route, payload)
             .then((response) => {
-                console.log(`${entity} criado com sucesso: ` , response.data);
                 setIsUpdating(false);
                 closeModalRef.current?.click();
                 fetchData();
             })
             .catch((error) => {
-                console.error(`Erro ao criar ${entity}: `, error);
+                console.error(`Erro ao criar ${entity}:`, error.response?.data || error.message);
             });
     }
 
     function handleUpdate (){
-        api.put(`${route}/${formData.id}`, Object.fromEntries(dataKeys
+        const payload = Object.fromEntries(dataKeys
                 .filter(key => key !== 'id')
-                .map((key) => [key, formData[key]]
-        )))
+                .map((key) => [key, formData[key]])
+        );
+        
+        api.put(`${route}/${formData.id}`, payload)
             .then((response) => {
-                console.log(`${entity} atualizado com sucesso: `, response.data);
                 setIsUpdating(false);
                 closeModalRef.current?.click();
                 fetchData();
             })
             .catch((error) => {
-                console.error(`Erro ao atualizar ${entity}: `, error);
+                console.error(`Erro ao atualizar ${entity}:`, error.response?.data || error.message);
             });
     }
 
     function handleDelete (id: number){
-        console.log(id)
         api.delete(`${route}/${id}`)
             .then((response) => {
-                console.log(`${entity} deletado com sucesso: `, response.data);
                 fetchData();
             })
             .catch((error) => {
-                console.error(`Erro ao deletar ${entity}: `, error);
+                console.error(`Erro ao deletar ${entity}:`, error);
             });
     }
 
@@ -184,16 +240,54 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
                             <form className='d-flex flex-column gap-2'>
                                 {dataKeys
                                     .filter(key => key !== 'id')
-                                    .map((key) => (
-                                        <Input id={key} label={`${key} do ${entity}`} key={key}
-                                            value={formData[key]}
-                                            onChange={(e) => setFormData(prev => ({
-                                                ...prev,
-                                                [key]: e.target.value
-                                            }))}
-                                        />
-                                    )
-                                )}
+                                    .map((key) => {
+                                        // Verifica se é uma Foreign Key
+                                        const isForeignKey = foreignKeys.includes(key);
+                                        
+                                        if (isForeignKey) {
+                                            // Renderiza Dropdown para Foreign Keys
+                                            const dropdownItems = relatedData[key] || [];
+                                            
+                                            // Encontra o item selecionado (valor atual em formData)
+                                            const currentValue = formData[key];
+                                            const selectedItem = dropdownItems.find((item: any) => item.id === currentValue) || null;
+                                            
+                                            return (
+                                                <Dropdown
+                                                    key={key}
+                                                    id={key}
+                                                    label={`Selecione o ${key}`}
+                                                    placeholder={`Nenhum ${key} selecionado`}
+                                                    dropdownItems={dropdownItems}
+                                                    initialValue={selectedItem}
+                                                    onSelect={(selectedItem) => {
+                                                        if (selectedItem) {
+                                                            // Armazena o ID da entidade relacionada
+                                                            setFormData(prev => ({
+                                                                ...prev,
+                                                                [key]: selectedItem.id
+                                                            }));
+                                                        }
+                                                    }}
+                                                />
+                                            );
+                                        } else {
+                                            // Renderiza Input comum para campos normais
+                                            return (
+                                                <Input
+                                                    id={key}
+                                                    label={`${key} do ${entity}`}
+                                                    key={key}
+                                                    value={formData[key]}
+                                                    onChange={(e) => setFormData(prev => ({
+                                                        ...prev,
+                                                        [key]: e.target.value
+                                                    }))}
+                                                />
+                                            );
+                                        }
+                                    })
+                                }
                             </form>
                         </div>
                         <div className="modal-footer">

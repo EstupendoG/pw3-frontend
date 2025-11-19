@@ -63,11 +63,11 @@ function Header({
                         <span className={styles.currentColor} style={{color: `var(--${color}-text)`}}> </span>
                         <div className={`d-flex align-items-center ${styles.colorOptions}`}>
                             {colorOptions.map(c => (
-                                <>
-                                    <input className={styles.colorOption} type="radio" name="changeColor" value={c} id={c} key={`${c}-input`} onChange={() => setColor(c)}
+                                <div key={c}>
+                                    <input className={styles.colorOption} type="radio" name="changeColor" value={c} id={c} onChange={() => setColor(c)}
                                     />
-                                    <label htmlFor={c} style={{color: `var(--${c}-text)`}} key={`${c}-label`}></label>
-                                </>
+                                    <label htmlFor={c} style={{color: `var(--${c}-text)`}}></label>
+                                </div>
                             ))}
                         </div>
 

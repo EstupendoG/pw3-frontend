@@ -9,7 +9,7 @@ interface InputProps {
     onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
-const Input = ({placeholder = 'Digite o valor', label, id, type = 'text', value, onChange}: InputProps) => {
+const Input = ({placeholder = 'Digite o valor', label, id, type = 'text', value = '', onChange}: InputProps) => {
     
     return(
         <div className={styles.container}>
@@ -23,7 +23,7 @@ const Input = ({placeholder = 'Digite o valor', label, id, type = 'text', value,
                     id={id && (id) }
                     placeholder={placeholder && (placeholder)}
                     className={styles.input}
-                    value={value}
+                    value={value || ''}
                     onChange={onChange} 
                 ></textarea>
             ) : (
@@ -32,7 +32,7 @@ const Input = ({placeholder = 'Digite o valor', label, id, type = 'text', value,
                     id={id && (id) }
                     placeholder={placeholder && (placeholder)}
                     className={styles.input}
-                    value={value}
+                    value={value || ''}
                     onChange={onChange}
                 />
             )}
