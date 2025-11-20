@@ -192,57 +192,55 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
 
             {/* TABELA */}
             <main className={styles.tableContainer}>
-                <div className={styles.tableWrapper}>
-                    <table className={`table table-sm ${styles.dataTable}`}>
-                        <thead>
-                            <tr>
+                <table className={`table table-sm ${styles.dataTable}`}>
+                    <thead>
+                        <tr>
+                            {dataKeys.map(key => (
+                                <th scope="col" key={key}>{key}</th>
+                            ) )}
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {data.map((data: any) => (
+                            <tr key={data.id}>
+                                
                                 {dataKeys.map(key => (
-                                    <th scope="col" key={key}>{key}</th>
-                                ) )}
-                                <th scope="col">Ações</th>
+                                    <td key={key}>{data[key]}</td>
+                                ))}
+
+                                <th className={styles.actionCol}>
+                                    <button className={`btn btn-sm me-1`} data-bs-toggle="modal" data-bs-target="#formModal"
+                                        onClick={() => {
+                                            setIsUpdating(true);
+
+                                            const initial: any = {};
+                                            dataKeys.forEach(key => {
+                                                initial[key] = data[key];
+                                            })
+                                            setFormData(initial);
+                                        }}
+                                    >
+                                        <i className="bi bi-pencil-fill"></i>
+                                    </button>
+
+                                    <button className={`btn btn-sm`}
+                                        onClick={() => {
+                                            handleDelete(data.id)}
+                                        }
+                                    > 
+                                        <i className="bi bi-trash-fill"></i>
+                                    </button>
+                                </th>
                             </tr>
-                        </thead>
-
-                        <tbody>
-                            {data.map((data: any) => (
-                                <tr key={data.id}>
-                                    
-                                    {dataKeys.map(key => (
-                                        <td key={key}>{data[key]}</td>
-                                    ))}
-
-                                    <th className={styles.actionCol}>
-                                        <button className={`btn btn-sm me-1`} data-bs-toggle="modal" data-bs-target="#formModal"
-                                            onClick={() => {
-                                                setIsUpdating(true);
-
-                                                const initial: any = {};
-                                                dataKeys.forEach(key => {
-                                                    initial[key] = data[key];
-                                                })
-                                                setFormData(initial);
-                                            }}
-                                        >
-                                            <i className="bi bi-pencil-fill"></i>
-                                        </button>
-
-                                        <button className={`btn btn-sm`}
-                                            onClick={() => {
-                                                handleDelete(data.id)}
-                                            }
-                                        > 
-                                            <i className="bi bi-trash-fill"></i>
-                                        </button>
-                                    </th>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                        ))}
+                    </tbody>
+                </table>
             </main>
             
             {/* PAGINAÇÃO */}
-            <section className={`d-flex justify-content-center mt-2`}>
+            <section className={`d-flex justify-content-end mt-2`}>
                 <PaginationNav 
                     currentPage={currentPage}
                     setPage={setCurrentPage}

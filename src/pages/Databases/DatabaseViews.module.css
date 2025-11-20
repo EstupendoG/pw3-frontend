@@ -66,24 +66,36 @@ main.tableContainer{
 }
 
     main.tableContainer
-    div.tableWrapper{
-        background-color: var(--color-bg-secondary);
-        padding: .3rem 1rem;
-        border-radius: 10px;
-    }
-
-    main.tableContainer
     table.dataTable{
+        background-color: var(--color-bg-secondary);
+        
+        border-radius: 10px;
+
+        overflow: hidden;
         
         & th, & tr, & td {
             background-color: transparent;
-            color: var(--color-text-primary);
+            padding: .3rem 1rem;
 
+            color: var(--color-text-primary);
             font-size: .8rem;
+            
+            border-color: transparent;
+
         }
 
         & thead th{
+            background-color: var(--color-accent-bg);
+            color: var(--color-accent-text);
+            padding: .7rem 1rem;
+
             text-transform: capitalize;
+        }
+
+        & tbody tr:hover > *{
+            background-color: var(--color-accent-bg);
+
+            transition: all 150ms ease-out;
         }
 
         & th.actionCol {

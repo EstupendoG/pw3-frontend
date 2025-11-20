@@ -9,7 +9,7 @@ function DefaultLayout(){
         <>
             <Header pageTitle={undefined} pageSubtitle={undefined}/>
 
-            <section className="row container-md mx-auto mt-3">
+            <section className="row container-md mx-auto mt-3 pb-3">
                 <div className="col">
                     <Outlet />
                 </div>

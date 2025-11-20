@@ -12,12 +12,14 @@ div.container{
     }
 
     button.paginationBtn{
+        width: 1.7rem;
+
         color: var(--color-text-secondary);
         font-size: .8rem;
-        width: 1.7rem;
-        display: inline-block;
-        user-select: none;
 
+        display: inline-block;
+        
+        user-select: none;
         transition: all 200ms ease-out;
 
         &:hover{
@@ -26,7 +28,6 @@ div.container{
         }
         &:active{
             scale: .9;
-
         }
 
         &.currentPage{
@@ -45,6 +46,5 @@ div.container{
             opacity: .5;
             scale: .9;
             pointer-events: none;
-
         }
     }
