@@ -21,21 +21,15 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
     const [isUpdating, setIsUpdating] = useState(false);
     const closeModalRef = useRef<HTMLButtonElement>(null);
 
-    // Estado para armazenar dados das entidades relacionadas
-    // Ex: { id_pais: [...countries], id_continente: [...continents] }
     const [relatedData, setRelatedData] = useState<Record<string, any>>({});
     
     // Pega as Foreign Keys desta entidade
     const foreignKeys = getForeignKeys(entity);
 
-    // Efeito 1: Carrega dados principais e dados relacionados
     useEffect(() => {
         fetchData();
         
-        // Calcula Foreign Keys neste momento (dentro do useEffect)
         const fks = getForeignKeys(entity);
-        
-        // Carrega dados das entidades relacionadas
         if (fks.length > 0) {
             loadRelatedData(fks);
         }
@@ -51,10 +45,6 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
         });
     }
 
-    /**
-     * Carrega dados das entidades relacionadas (Foreign Keys)
-     * Cada FK resulta em uma chamada à API para buscar os dados
-     */
     function loadRelatedData(fks: string[]) {
         const relatedDataTemp: Record<string, any> = {};
         let completedRequests = 0;
@@ -68,7 +58,6 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
             api.get(config.route)
                 .then((response) => {
                     // Transforma os dados em formato esperado pelo Dropdown
-                    // Ex: { id: 1, nome: 'Brasil' } -> { id: 1, label: 'Brasil' }
                     const formattedData = response.data.map((item: any) => ({
                         ...item,
                         label: item[config.label] || item.nome || item.id,
@@ -94,7 +83,6 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
     }
 
     function handleCreate (){
-        // Cria objeto sem o ID (ele é gerado pelo servidor)
         const payload = Object.fromEntries(dataKeys
                 .filter(key => key !== 'id')
                 .map((key) => [key, formData[key]])
@@ -241,14 +229,11 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
                                 {dataKeys
                                     .filter(key => key !== 'id')
                                     .map((key) => {
-                                        // Verifica se é uma Foreign Key
                                         const isForeignKey = foreignKeys.includes(key);
                                         
                                         if (isForeignKey) {
                                             // Renderiza Dropdown para Foreign Keys
                                             const dropdownItems = relatedData[key] || [];
-                                            
-                                            // Encontra o item selecionado (valor atual em formData)
                                             const currentValue = formData[key];
                                             const selectedItem = dropdownItems.find((item: any) => item.id === currentValue) || null;
                                             
@@ -262,7 +247,7 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
                                                     initialValue={selectedItem}
                                                     onSelect={(selectedItem) => {
                                                         if (selectedItem) {
-                                                            // Armazena o ID da entidade relacionada
+                                                            // Armazena id da entidade relacionada
                                                             setFormData(prev => ({
                                                                 ...prev,
                                                                 [key]: selectedItem.id
@@ -272,7 +257,7 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
                                                 />
                                             );
                                         } else {
-                                            // Renderiza Input comum para campos normais
+                                            // Renderiza Input comum
                                             return (
                                                 <Input
                                                     id={key}

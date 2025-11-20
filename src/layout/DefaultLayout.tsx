@@ -10,9 +10,6 @@ function DefaultLayout(){
             <Header pageTitle={undefined} pageSubtitle={undefined}/>
 
             <section className="row container-md mx-auto mt-3">
-                <div className="col-3">
-                    <Sidebar/>
-                </div>
                 <div className="col">
                     <Outlet />
                 </div>

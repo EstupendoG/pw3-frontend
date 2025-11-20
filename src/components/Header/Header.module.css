@@ -20,68 +20,163 @@ header.header{
             font-size: 4rem;
         }
 
-    div.colorContainer{
+    .pageTitle{
+        color: var(--color-text-primary);
+    }
+
+    /* LINKS */
+    section.links{
+        display: flex;
+    }
+
+        ul.linksContainer{
+            margin-bottom: 0;
+            padding-left: 0;
+            list-style: none;
+
+            display: flex;
+            justify-content: end;
+            gap: .5rem;
+        }
+            ul.linksContainer .link{
+                padding: .3rem .7rem;
+                margin-top: auto;
+
+                color: var(--color-text-secondary);
+                font-size: .9rem;
+                text-decoration: none;
+                
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+                
+                border-radius: 5px;
+                
+                cursor: pointer;
+                transition: all .2s;
+
+                & i{
+                    color: var(--color-accent-text);
+                    font-size: 1em;
+                }
+
+                &:hover{
+                    background-color: var(--color-accent-pill);
+                    text-decoration: underline;
+                }
+            }
+
+    /* TEMAS */
+    div.themesContainer{
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    button.themeToggleBtn{
         background-color: var(--color-bg-secondary);
-        padding: 15px;
-        border-radius: 50px;
-        overflow: visible;
+        
+        border-radius: 100px;
+        
+        cursor: pointer;
+        transition: all .2s;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: var(--color-text-secondary);
+        font-size: 1.2rem;
+
+        border: 2px solid transparent;
+
+        transform: all 200ms ease-out;
 
         &:hover{
-            gap: 1rem;
+            color: var(--color-accent-text);
+            background-color: var(--color-accent-pill);
+            transform: scale(1.05);
         }
 
-        &:hover div.colorOptions{
-            width: 100px;
-            min-width: fit-content;
-            
-            gap: .2rem;
-            opacity: 1;            
+        &:active{
+            transform: scale(0.95);
+        }
+
+        i{
+            color: currentColor;
         }
     }
 
-        span.currentColor{
-            display: block;
+    /* Cores */
+    div.colorDropdown{
+        /* dropdown de cores */
+    }
+        button.dropdownBtn{
+            background-color: var(--color-bg-secondary);
+            padding: .5rem;
             
-            border: 2px solid var(--color-bg-secondary);
-            box-shadow: 0 0 0 3px currentColor;
-            
-            cursor: default !important;
-            transition: color 150ms ease-out;
-        }
+            border-radius: 100px;
 
-        div.colorOptions{
-            width: 0;
+            transform: all 200ms ease-out;
 
-            display: flex;
-            align-items: center;
-            gap: 0;
-            
-            overflow-x: hidden;
-            opacity: 0;
-
-            transition: all 200ms;
-        }
-            input[type="radio"].colorOption{
-                visibility: hidden;
-                display: none;
+            &:hover{
+                background-color: var(--color-accent-pill);
+                
+                scale: 1.05;
             }
-                input[type="radio"].colorOption + label,
-                span.currentColor{
+        }
+            span.currentColor{
+                background-color: currentColor;
+                width: 1.2rem;
+                aspect-ratio: 1/1;
+
+                display: block;
+                
+                border-radius: 100%;
+                
+                border: 2px solid var(--color-bg-secondary);
+                outline: 3px solid currentColor;
+            }
+
+        ul.dropdownMenu{
+            min-width: 1px;
+            background-color: var(--color-bg-secondary);
+            white-space: nowrap;
+        }
+            ul.dropdownMenu li{
+                display: inline-block;
+                width: min-content;
+                vertical-align: middle;
+                background-color: var(--color-bg-secondary);
+
+                &:hover{
+                    background-color: var(--color-bg-secondary);
+                }
+            }
+
+            input.colorOption{
+                display: none;
+
+                & + label{
                     background-color: currentColor;
-                    height: 1.2rem;
+                    width: 1.3rem;
                     aspect-ratio: 1/1;
-
-                    display: inline-block;
-                    vertical-align: middle;
-
-                    border-radius: 50px;
-
+                    
+                    border-radius: 100%;
+                    display: block;
                     cursor: pointer;
-                    user-select: none;
+
+                    transition: all 150ms ease-out;
+
+                    &:hover{
+                        scale: 1.1;
+                    }
                 }
-                input[type="radio"].colorOption:checked + label{
-                    scale: .75;
+                &:checked + label{
                     border: 2px solid var(--color-bg-secondary);
-                    box-shadow: 0 0 0 3px currentColor;
+                    outline: 3px solid currentColor;
+                    scale: .9;
                 }
+            }
+
 

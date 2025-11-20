@@ -4,10 +4,12 @@ header.pageHeader{
 }
     header.pageHeader
     section.titleContainer{
+        color: var(--color-text-primary);
 
         & i{
-            font-size: 1.25rem;
+            margin-right: .3rem;
             color: var(--color-accent-text);
+            font-size: 1.25rem;
         }
         & .title{
             font-size: 1.5rem;
@@ -58,7 +60,7 @@ header.pageHeader{
     }
 
 
-
+/* TABELA */
 main.tableContainer{
     
 }
@@ -87,6 +89,7 @@ main.tableContainer{
             white-space: nowrap;
         }
             & th.actionCol button {
+                color: var(--color-text-primary);
                 background-color: var(--color-bg-primary);
                 font-size: .75rem;
 
