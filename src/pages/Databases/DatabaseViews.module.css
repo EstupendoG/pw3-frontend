@@ -78,6 +78,8 @@ main.tableContainer{
         & th, & tr, & td {
             background-color: transparent;
             color: var(--color-text-primary);
+
+            font-size: .8rem;
         }
 
         & thead th{
@@ -107,8 +109,8 @@ main.tableContainer{
         background-color: var(--color-bg-primary);
         color: var(--color-text-primary);
 
-        border-color: var(--color-accent-text);
-        box-shadow: 0 0 3px var(--color-accent-text);
+        border: 2px solid var(--color-bg-secondary);
+        box-shadow: 0 0 20px rgba(0, 0, 0, .1);
 
         & > div{
             border-bottom: 0;
@@ -146,6 +148,7 @@ main.tableContainer{
 
         section.modalBtn
         button {
+            color: var(--color-text-secondary);
             &:hover{
                 background-color: var(--color-accent-bg);
                 color: var(--color-accent-text);

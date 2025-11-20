@@ -1,0 +1,50 @@
+div.container{
+    background-color: var(--color-bg-secondary);
+    padding: .2rem .3rem;
+
+    display: flex;
+
+    border-radius: 10px;
+}
+
+    section.pagesIndexes{
+        padding: 0 .5rem;
+    }
+
+    button.paginationBtn{
+        color: var(--color-text-secondary);
+        font-size: .8rem;
+        width: 1.7rem;
+        display: inline-block;
+        user-select: none;
+
+        transition: all 200ms ease-out;
+
+        &:hover{
+            color: var(--color-text-primary);
+            scale: 1.05;
+        }
+        &:active{
+            scale: .9;
+
+        }
+
+        &.currentPage{
+            background-color: var(--color-accent-pill);
+            color: var(--color-text-primary) !important;
+            scale: 1.05;
+        }
+
+        &.extremeBtn{
+            font-size: .75rem;
+            white-space: nowrap;
+        }
+
+        &:disabled{
+            cursor: default;
+            opacity: .5;
+            scale: .9;
+            pointer-events: none;
+
+        }
+    }

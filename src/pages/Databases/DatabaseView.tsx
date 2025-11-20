@@ -1,11 +1,12 @@
+import { useEffect, useState, useRef } from 'react';
 import styles from './DatabaseViews.module.css'
 
 import api from '../../service/axios.js';
+import { getForeignKeys, getForeignKeyConfig } from '../../config/relationshipConfig.js';
 
 import Input from '../../components/Input/Input.js';
 import Dropdown from '../../components/Dropdown/Dropdown.js';
-import { useEffect, useState, useRef } from 'react';
-import { getForeignKeys, getForeignKeyConfig } from '../../config/relationshipConfig.js';
+import PaginationNav from '../../components/PaginationNav/PaginationNav.js';
 
 interface DatabaseViewProps {
     dataFormat: Record<string, any>;
@@ -15,17 +16,37 @@ interface DatabaseViewProps {
 }
 
 function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps) {
+    // VARIÁVEIS
     const dataKeys = Object.keys(dataFormat);
+    const closeModalRef = useRef<HTMLButtonElement>(null);
+    const foreignKeys = getForeignKeys(entity); // Pega as Foreign Keys desta entidade
+    const paginationLimit = 10
+
+
+    // ESTADOS
     const [data, setData] = useState([])
     const [formData, setFormData] = useState<Record<string, any>>({});
-    const [isUpdating, setIsUpdating] = useState(false);
-    const closeModalRef = useRef<HTMLButtonElement>(null);
-
     const [relatedData, setRelatedData] = useState<Record<string, any>>({});
+    const [totalPages, setTotalPages] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [pagesIndexes, setPagesIndexes] = useState<number[]>([])
+    const [isUpdating, setIsUpdating] = useState(false);
     
-    // Pega as Foreign Keys desta entidade
-    const foreignKeys = getForeignKeys(entity);
+    // EFFECTS
+    // Pega o total de páginas
+    useEffect(() => {
+        api.get(`${route}/count`)
+            .then(res => {
+                setTotalPages(
+                    Math.ceil(res.data / paginationLimit)
+                )
+            })
+            .catch(err => {
+                console.error(`Erro ao ler total de ${entity}`, err)
+            })
+    }, [entity])
 
+    // Busca dados
     useEffect(() => {
         fetchData();
         
@@ -33,18 +54,28 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
         if (fks.length > 0) {
             loadRelatedData(fks);
         }
-    }, [entity]);
+    }, [entity, currentPage]);
 
+    // Reinicia paginação
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [entity])
+
+
+
+    // FUNÇÕES
+    // Get
     function fetchData() {
-        api.get(route)
-        .then((response) => {
-            setData(response.data);
+        api.get(`${route}/${currentPage}/${paginationLimit}`)
+        .then((res) => {
+            setData(res.data);
         })
-        .catch((error) => {
-            console.error(`Erro ao buscar ${entity}:`, error);
+        .catch((err) => {
+            console.error(`Erro ao buscar ${entity}:`, err);
         });
     }
 
+    // Carregar FK's
     function loadRelatedData(fks: string[]) {
         const relatedDataTemp: Record<string, any> = {};
         let completedRequests = 0;
@@ -82,10 +113,11 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
         });
     }
 
+    // Post
     function handleCreate (){
         const payload = Object.fromEntries(dataKeys
-                .filter(key => key !== 'id')
-                .map((key) => [key, formData[key]])
+            .filter(key => key !== 'id')
+            .map((key) => [key, formData[key]])
         );
         
         api.post(route, payload)
@@ -99,10 +131,11 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
             });
     }
 
+    // Put
     function handleUpdate (){
         const payload = Object.fromEntries(dataKeys
-                .filter(key => key !== 'id')
-                .map((key) => [key, formData[key]])
+            .filter(key => key !== 'id')
+            .map((key) => [key, formData[key]])
         );
         
         api.put(`${route}/${formData.id}`, payload)
@@ -116,6 +149,7 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
             });
     }
 
+    // Delete
     function handleDelete (id: number){
         api.delete(`${route}/${id}`)
             .then((response) => {
@@ -176,7 +210,7 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
                                     {dataKeys.map(key => (
                                         <td key={key}>{data[key]}</td>
                                     ))}
-                                    
+
                                     <th className={styles.actionCol}>
                                         <button className={`btn btn-sm me-1`} data-bs-toggle="modal" data-bs-target="#formModal"
                                             onClick={() => {
@@ -206,7 +240,15 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
                     </table>
                 </div>
             </main>
-
+            
+            {/* PAGINAÇÃO */}
+            <section className={`d-flex justify-content-center mt-2`}>
+                <PaginationNav 
+                    currentPage={currentPage}
+                    setPage={setCurrentPage}
+                    totalPages={totalPages}
+                />
+            </section>
 
 
             {/* MODAIS */}
