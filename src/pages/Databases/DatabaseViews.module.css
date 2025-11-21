@@ -1,0 +1,173 @@
+header.pageHeader{
+
+
+}
+    header.pageHeader
+    section.titleContainer{
+        color: var(--color-text-primary);
+
+        & i{
+            margin-right: .3rem;
+            color: var(--color-accent-text);
+            font-size: 1.25rem;
+        }
+        & .title{
+            font-size: 1.5rem;
+            margin-bottom: 0;
+            text-transform: capitalize;
+        }
+    }
+
+    header.pageHeader
+    section.controllerContainer{
+        & button.addBtn{
+            background-color: var(--color-accent-text);
+
+            color: var(--color-accent-bg);
+            font-size: 1.3rem;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            border: none;
+            outline: none;
+            border-radius: 100px;
+            
+            transition: all 200ms ease-out;
+
+            &:hover{
+                filter: brightness(0.9);
+            }
+            
+            &::after{
+                content: 'Adicionar';
+                width: 0;
+
+                font-size: .8rem;
+                color: currentColor;
+                overflow: hidden;
+                
+                opacity: 0;                
+                transition: width 200ms ease, opacity 200ms ease;
+            }
+
+            &:hover::after{
+                width: auto;
+                opacity: 1;
+            }
+        }
+    }
+
+
+/* TABELA */
+main.tableContainer{
+    
+}
+
+    main.tableContainer
+    table.dataTable{
+        background-color: var(--color-bg-secondary);
+        
+        border-radius: 10px;
+
+        overflow: hidden;
+        
+        & th, & tr, & td {
+            background-color: transparent;
+            padding: .3rem 1rem;
+
+            color: var(--color-text-primary);
+            font-size: .8rem;
+            
+            border-color: transparent;
+
+        }
+
+        & thead th{
+            background-color: var(--color-accent-bg);
+            color: var(--color-accent-text);
+            padding: .7rem 1rem;
+
+            text-transform: capitalize;
+        }
+
+        & tbody tr:hover > *{
+            background-color: var(--color-accent-bg);
+
+            transition: all 150ms ease-out;
+        }
+
+        & th.actionCol {
+            width: 1%;
+            white-space: nowrap;
+        }
+            & th.actionCol button {
+                color: var(--color-text-primary);
+                background-color: var(--color-bg-primary);
+                font-size: .75rem;
+
+                &:hover{
+                    background-color: var(--color-accent-text);
+                    color: var(--color-accent-bg);
+                }
+            }
+    }
+
+
+
+/* MODAL */
+    div.modalConentent{
+        background-color: var(--color-bg-primary);
+        color: var(--color-text-primary);
+
+        border: 2px solid var(--color-bg-secondary);
+        box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+
+        & > div{
+            border-bottom: 0;
+            border-top: 0;
+        }
+    }
+
+        div.modalHeader{
+            padding-bottom: 0;
+        }
+            div.modalHeader .title{
+                color: var(--color-text-primary);
+
+                & i{
+                    color: var(--color-accent-text);
+                }
+            }
+            div.modalHeader button{
+                color: var(--color-accent-text);
+                font-size: 2rem;
+
+                transition: all 150ms ease-out;
+
+                &:hover{
+                    scale: 1.1;
+
+                }
+            }
+
+    section.modalBtn{
+        display: flex;
+        justify-content: flex-end;
+        gap: .3rem;
+    }
+
+        section.modalBtn
+        button {
+            color: var(--color-text-secondary);
+            &:hover{
+                background-color: var(--color-accent-bg);
+                color: var(--color-accent-text);
+            }
+
+            &:active{
+                color: var(--color-accent-text) !important;
+                border: 1px solid currentColor;
+            }
+        }

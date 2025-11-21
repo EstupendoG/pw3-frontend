@@ -1,0 +1,136 @@
+/* TEMA LIGHT */
+:root[data-theme='light'] {
+    --color-text-primary: #37352F;
+    --color-bg-primary: #FFFFFF;
+    --color-pill-primary: rgba(206, 205, 202, 0.5);
+    
+    --color-text-secondary: #9B9A97;
+    --color-bg-secondary: #EBECED;
+    
+    /* PALETA DE CORES DO TEMA LIGHT -------------------- */
+  --brown-text: #64473A;
+  --brown-bg: #E9E5E3;
+  --brown-pill: rgba(140, 46, 0, 0.2);
+
+  --orange-text: #D9730D;
+  --orange-bg: #FAEBDD;
+  --orange-pill: rgba(245, 93, 0, 0.2);
+
+  --yellow-text: #DFAB01;
+  --yellow-bg: #FBF3DB;
+  --yellow-pill: rgba(233, 168, 0, 0.2);
+
+  --green-text: #0F7B6C;
+  --green-bg: #DDEDEA;
+  --green-pill: rgba(0, 135, 107, 0.2);
+
+  --blue-text: #0B6E99;
+  --blue-bg: #DDEBF1;
+  --blue-pill: rgba(0, 120, 223, 0.2);
+
+  --purple-text: #6940A5;
+  --purple-bg: #EAE4F2;
+  --purple-pill: rgba(103, 36, 222, 0.2);
+
+  --pink-text: #AD1A72;
+  --pink-bg: #F4DFEB;
+  --pink-pill: rgba(221, 0, 129, 0.2);
+
+  --red-text: #E03E3E;
+  --red-bg: #FBE4E4;
+  --red-pill: rgba(255, 0, 26, 0.2);
+}
+
+
+
+/* TEMA DARK */
+:root[data-theme='dark'] {
+    --color-text-primary: rgba(255, 255, 255, 0.9);
+    --color-bg-primary: #2F3437;
+    --color-pill-primary: rgba(206, 205, 202, 0.5);
+    
+    --color-text-secondary: rgba(151, 154, 155, 0.95);
+    --color-bg-secondary: #454B4E;
+    
+    /* PALETA DE CORES DO TEMA DARK -------------------- */
+  --brown-text: #937264;
+  --brown-bg: #434040;
+  --brown-pill: rgba(147, 114, 100, 0.5);
+
+  --orange-text: #FFA344;
+  --orange-bg: #594A3A;
+  --orange-pill: rgba(255, 163, 68, 0.5);
+
+  --yellow-text: #FFDC49;
+  --yellow-bg: #59563B;
+  --yellow-pill: rgba(255, 220, 73, 0.5);
+
+  --green-text: #4DAB9A;
+  --green-bg: #354C4B;
+  --green-pill: rgba(77, 171, 154, 0.5);
+
+  --blue-text: #529CCA;
+  --blue-bg: #364954;
+  --blue-pill: rgba(82, 156, 202, 0.5);
+
+  --purple-text: #9A6DD7;
+  --purple-bg: #443F57;
+  --purple-pill: rgba(154, 109, 215, 0.5);
+
+  --pink-text: #E255A1;
+  --pink-bg: #533B4C;
+  --pink-pill: rgba(226, 85, 161, 0.5);
+
+  --red-text: #FF7369;
+  --red-bg: #594141;
+  --red-pill: rgba(255, 115, 105, 0.5);
+}
+
+/* APLICANDO PALETA DE CORES */
+    :root[data-color="brown"] {
+    --color-accent-text: var(--brown-text);
+    --color-accent-bg: var(--brown-bg);
+    --color-accent-pill: var(--brown-pill);
+    }
+
+    :root[data-color="orange"] {
+    --color-accent-text: var(--orange-text);
+    --color-accent-bg: var(--orange-bg);
+    --color-accent-pill: var(--orange-pill);
+    }
+
+    :root[data-color="yellow"] {
+    --color-accent-text: var(--yellow-text);
+    --color-accent-bg: var(--yellow-bg);
+    --color-accent-pill: var(--yellow-pill);
+    }
+
+    :root[data-color="green"] {
+    --color-accent-text: var(--green-text);
+    --color-accent-bg: var(--green-bg);
+    --color-accent-pill: var(--green-pill);
+    }
+
+    :root[data-color="blue"] {
+    --color-accent-text: var(--blue-text);
+    --color-accent-bg: var(--blue-bg);
+    --color-accent-pill: var(--blue-pill);
+    }
+
+    :root[data-color="purple"] {
+    --color-accent-text: var(--purple-text);
+    --color-accent-bg: var(--purple-bg);
+    --color-accent-pill: var(--purple-pill);
+    }
+
+    :root[data-color="pink"] {
+    --color-accent-text: var(--pink-text);
+    --color-accent-bg: var(--pink-bg);
+    --color-accent-pill: var(--pink-pill);
+    }
+
+    :root[data-color="red"] {
+    --color-accent-text: var(--red-text);
+    --color-accent-bg: var(--red-bg);
+    --color-accent-pill: var(--red-pill);
+    }
