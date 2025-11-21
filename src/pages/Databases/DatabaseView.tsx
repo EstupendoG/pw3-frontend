@@ -27,9 +27,8 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
     const [data, setData] = useState([])
     const [formData, setFormData] = useState<Record<string, any>>({});
     const [relatedData, setRelatedData] = useState<Record<string, any>>({});
-    const [totalPages, setTotalPages] = useState(1)
     const [currentPage, setCurrentPage] = useState(1)
-    const [pagesIndexes, setPagesIndexes] = useState<number[]>([])
+    const [totalPages, setTotalPages] = useState(1)
     const [isUpdating, setIsUpdating] = useState(false);
     
     // EFFECTS
@@ -60,8 +59,6 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
     useEffect(() => {
         setCurrentPage(1)
     }, [entity])
-
-
 
     // FUNÇÕES
     // Get
@@ -203,11 +200,12 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
                     </thead>
 
                     <tbody>
-                        {data.map((data: any) => (
-                            <tr key={data.id}>
+                        {data.map((d: any) => (
+                            <>
+                            <tr key={d.id}>
                                 
                                 {dataKeys.map(key => (
-                                    <td key={key}>{data[key]}</td>
+                                    <td key={key}>{d[key]}</td>
                                 ))}
 
                                 <th className={styles.actionCol}>
@@ -217,7 +215,7 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
 
                                             const initial: any = {};
                                             dataKeys.forEach(key => {
-                                                initial[key] = data[key];
+                                                initial[key] = d[key];
                                             })
                                             setFormData(initial);
                                         }}
@@ -227,26 +225,29 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
 
                                     <button className={`btn btn-sm`}
                                         onClick={() => {
-                                            handleDelete(data.id)}
+                                            handleDelete(d.id)}
                                         }
                                     > 
                                         <i className="bi bi-trash-fill"></i>
                                     </button>
                                 </th>
                             </tr>
+                            </>
                         ))}
                     </tbody>
                 </table>
             </main>
             
             {/* PAGINAÇÃO */}
-            <section className={`d-flex justify-content-end mt-2`}>
-                <PaginationNav 
-                    currentPage={currentPage}
-                    setPage={setCurrentPage}
-                    totalPages={totalPages}
-                />
-            </section>
+            {totalPages > paginationLimit && (
+                <section className={`d-flex justify-content-end mt-2`}>
+                    <PaginationNav 
+                        currentPage={currentPage}
+                        setPage={setCurrentPage}
+                        totalPages={totalPages}
+                    />
+                </section>
+            )}
 
 
             {/* MODAIS */}

@@ -3,7 +3,6 @@ import { useThemeContext } from '../../contexts/ThemeContext.js'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './Header.module.css' 
-import Dropdown from '../Dropdown/Dropdown.js'
 
 interface HeaderProps{
     // coverUrl: string,
@@ -42,10 +41,6 @@ function Header({
         setTheme(newTheme)
     }
 
-    useEffect(() => {
-        console.log(color)
-    }, [color])
-
     return(
         <header className={`${styles.header}`}>
             {/* <div className={styles.headerImg} style={ coverStyles }>
@@ -58,7 +53,9 @@ function Header({
 
             <section className='d-flex justify-content-between flex-column container-md mt-5'>
                 <div className={styles.pageTitle}>
-                    <h1> {pageTitle} </h1>
+                    <Link to='/'>
+                        <h1> {pageTitle} </h1>
+                    </Link>
                     
                     {pageSubtitle && (
                         <h2 className={styles.pageSubtitle}> - {pageSubtitle} </h2>
@@ -111,9 +108,21 @@ function Header({
                             <ul className={`dropdown-menu px-2 py-0 ${styles.dropdownMenu}`} aria-labelledby="dropdownMenuClickableInside">
                                 {colorOptions.map(c => (
                                     <li key={c} className={`dropdown-item px-1`}>
-                                        <input className={styles.colorOption} type="radio" name="changeColor" value={c} id={c} onChange={() => setColor(c)}
+                                        <input className={styles.colorOption} 
+                                            type="radio" 
+                                            name="changeColor" 
+                                            value={c} 
+                                            id={c} 
+                                            onChange={() => setColor(c)}
+                                            checked={color === c}
                                         />
-                                        <label htmlFor={c} style={{color: `var(--${c}-text)`}}/>
+                                        <label 
+                                            htmlFor={c} 
+                                            style={{
+                                                color: `var(--${c}-pill)`,
+                                                ["--hoverColor"]: `var(--${c}-text)`
+                                            } as React.CSSProperties}
+                                        />
                                     </li>
                                 ))}
                                 

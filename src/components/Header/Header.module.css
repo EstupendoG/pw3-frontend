@@ -20,8 +20,16 @@ header.header{
             font-size: 4rem;
         }
 
-    .pageTitle{
+    .pageTitle > *{
         color: var(--color-text-primary);
+        text-decoration: none;
+        display: inline-block;
+
+        transition: all 150ms ease-out;
+
+        &:hover{
+            scale: 1.02;
+        }
     }
 
     /* LINKS */
@@ -75,26 +83,25 @@ header.header{
 
     button.themeToggleBtn{
         background-color: var(--color-bg-secondary);
-        
+        width: 2.3rem;
+        aspect-ratio: 1/1;   
+
         border-radius: 100px;
         
         cursor: pointer;
-        transition: all .2s;
 
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
 
         color: var(--color-text-secondary);
         font-size: 1.2rem;
 
-        border: 2px solid transparent;
-
-        transform: all 200ms ease-out;
+        transition: all 200ms ease-out;
 
         &:hover{
-            color: var(--color-accent-text);
             background-color: var(--color-accent-pill);
+            color: var(--color-accent-text);
             transform: scale(1.05);
         }
 
@@ -104,6 +111,7 @@ header.header{
 
         i{
             color: currentColor;
+            font-size: 1rem;
         }
     }
 
@@ -113,7 +121,9 @@ header.header{
     }
         button.dropdownBtn{
             background-color: var(--color-bg-secondary);
-            padding: .5rem;
+            width: 2.3rem;
+            aspect-ratio: 1/1;
+            padding: .8rem;
             
             border-radius: 100px;
 
@@ -127,7 +137,6 @@ header.header{
         }
             span.currentColor{
                 background-color: currentColor;
-                width: 1.2rem;
                 aspect-ratio: 1/1;
 
                 display: block;
@@ -139,18 +148,26 @@ header.header{
             }
 
         ul.dropdownMenu{
-            min-width: 1px;
             background-color: var(--color-bg-secondary);
+            min-width: 1px;
+
             white-space: nowrap;
         }
             ul.dropdownMenu li{
-                display: inline-block;
-                width: min-content;
-                vertical-align: middle;
                 background-color: var(--color-bg-secondary);
+                width: min-content;
+                padding: .5rem 0;
+
+                display: inline-block;
+
+                vertical-align: middle;
 
                 &:hover{
-                    background-color: var(--color-bg-secondary);
+                    background-color: transparent;
+                }
+
+                &:hover label{
+                    background-color: var(--hoverColor);
                 }
             }
 
@@ -173,6 +190,7 @@ header.header{
                     }
                 }
                 &:checked + label{
+                    background-color: var(--hoverColor);
                     border: 2px solid var(--color-bg-secondary);
                     outline: 3px solid currentColor;
                     scale: .9;
