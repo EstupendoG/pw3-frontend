@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react'
 import styles from './Dropdown.module.css'
 import inputStyles from '../Input/Input.module.css'
 
+interface DropdownItem {
+    label: string;
+    value: string;
+}
+
 interface DropdownProps {
     id?: string;
     label?: string

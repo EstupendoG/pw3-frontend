@@ -22,7 +22,6 @@ function DatabaseView ({dataFormat, entity, iconClass, route}: DatabaseViewProps
     const foreignKeys = getForeignKeys(entity); // Pega as Foreign Keys desta entidade
     const paginationLimit = 10
 
-
     // ESTADOS
     const [data, setData] = useState([])
     const [formData, setFormData] = useState<Record<string, any>>({});
