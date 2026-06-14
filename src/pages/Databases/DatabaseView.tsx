@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import styles from './DatabaseViews.module.css'
 
-import api from '../../service/axios.js';
-import { getForeignKeys, getForeignKeyConfig } from '../../config/relationshipConfig.js';
+import api from '../../service/axios';
+import { getForeignKeys, getForeignKeyConfig } from '../../config/relationshipConfig';
 
-import Input from '../../components/Input/Input.js';
-import Dropdown from '../../components/Dropdown/Dropdown.js';
-import PaginationNav from '../../components/PaginationNav/PaginationNav.js';
+import Input from '../../components/Input/Input';
+import Dropdown from '../../components/Dropdown/Dropdown';
+import PaginationNav from '../../components/PaginationNav/PaginationNav';
 
 interface DatabaseViewProps {
     dataFormat: Record<string, any>;

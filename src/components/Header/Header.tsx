@@ -1,5 +1,5 @@
-import { useColorContext } from '../../contexts/colorContext.js'
-import { useThemeContext } from '../../contexts/ThemeContext.js'
+import { useColorContext } from '../../contexts/ColorContext'
+import { useThemeContext } from '../../contexts/ThemeContext'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './Header.module.css' 

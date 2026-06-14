@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import styles from './Dropdown.module.css'
-import inputStyles from '../Input/Input.module.css'
+import inputStyles from '../Input/input.module.css'
 
 interface DropdownItem {
     label: string;

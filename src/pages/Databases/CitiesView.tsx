@@ -1,4 +1,4 @@
-import DatabaseView from "./DatabaseView.js";
+import DatabaseView from "./DatabaseView";
 
 function CitiesView() {
     const dataFormat = {

@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import DefaultLayout from "./layout/DefaultLayout.js";
-import Homepage from "./pages/Homepage/Homepage.js";
+import DefaultLayout from "./layout/DefaultLayout";
+import Homepage from "./pages/Homepage/Homepage";
 
-import ContinentsView from "./pages/Databases/ContinentsView.js";
-import CountriesView from "./pages/Databases/CountriesView.js";
-import CitiesView from "./pages/Databases/CitiesView.js";
+import ContinentsView from "./pages/Databases/ContinentsView";
+import CountriesView from "./pages/Databases/CountriesView";
+import CitiesView from "./pages/Databases/CitiesView";
 
 const RoutesApp = () => {
     return(

@@ -1,10 +1,10 @@
 import { useEffect, useState, type SetStateAction } from "react"
 
 import styles from './Homepage.module.css'
-import api from "../../service/axios.js"
+import api from "../../service/axios"
 
-import Dropdown from "../../components/Dropdown/Dropdown.js";
-import Input from "../../components/Input/Input.js";
+import Dropdown from "../../components/Dropdown/Dropdown";
+import Input from "../../components/Input/Input";
 
 function Homepage() {
     const [countryData, setCountryData] = useState<Record<string, any>[]>([])
@@ -57,7 +57,7 @@ function Homepage() {
                                 }
                             })
                         }
-                        onSelect={(item) => {
+                        onSelect={(item: any) => {
                             if (!item) {
                                 setSelectedCurrency(null);
                                 return;

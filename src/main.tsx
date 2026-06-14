@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.js'
-import { ColorProvider } from './contexts/colorContext.js'
-import { ThemeProvider } from './contexts/ThemeContext.js'
+import App from './App'
+import { ColorProvider } from './contexts/ColorContext'
+import { ThemeProvider } from './contexts/ThemeContext'
 
 const rootElement = document.getElementById('root') as HTMLElement
 

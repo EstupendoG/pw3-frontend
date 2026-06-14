@@ -1,0 +1,23 @@
+#!/bin/bash
+apt-get update -y
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+systemctl enable --now docker
+
+cd /opt
+git clone https://github.com/EstupendoG/pw3-frontend app
+cd app
+
+cat > docker-compose.yml << 'EOF'
+services:
+    frontend:
+        build:
+            context: .
+        args:
+            VITE_API_URL: http://<IP_PUBLICO_BACKEND>:8000
+        ports:
+            - "80:80"
+        restart: unless-stopped
+EOF
+
+docker compose up -d --build
