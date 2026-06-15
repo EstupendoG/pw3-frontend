@@ -13,8 +13,8 @@ services:
     frontend:
         build:
             context: .
-        args:
-            VITE_API_URL: http://<IP_PUBLICO_BACKEND>:8000
+            args:
+                VITE_API_URL: http://<IP_PUBLICO_BACKEND>:8000/api
         ports:
             - "80:80"
         restart: unless-stopped
